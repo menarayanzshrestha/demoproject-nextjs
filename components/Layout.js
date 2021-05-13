@@ -6,7 +6,7 @@ import Image from 'next/image';
 const Layout = (props) => (
   <div>
     <Head>
-      <title>BitzPrice</title>
+      <title>Narayanz</title>
       <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
     </Head>
     <Navbar/>
