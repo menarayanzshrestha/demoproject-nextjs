@@ -25,12 +25,13 @@ const ListShow = () => {
     const [total, settotal] = useState(0);
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const [activeElement, setActiveElement] = useState(0);
+    const [id, setActiveId] = useState(0);
+    
     const [data, setData] = useState([]);
     const [demodata, setDemoData] = useState([{a : '1'}]);
-    const [sideTitle, setSideTitle] = useState("CREATE USER");
+  
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
-    const [modalText, setModalText] = React.useState('Content of the modal');
 
     const { Search } = Input;
     
@@ -125,33 +126,36 @@ const ListShow = () => {
      }
 
     };
-    
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const onFill = () => {
-
-      console.log(activeElement, "here is key",`${data[activeElement].name}`,data, activeElement,"1212");
-      form.setFieldsValue({
-        name:  `${data[activeElement].name}`,
-        age: `${data[activeElement].age}`,
-      });
-    };
-
-
-    const showEditModal = (key) => {
+    const showEditModal = (key, id) => {
       setActiveElement(key)
-      onFill();
+      setActiveId(id)
       setVisible(true);
     };
   
-    const handleEditOk = () => {
-      setConfirmLoading(true);
-      setTimeout(() => {
+    const handleEditOk = async(values) => {
+      
+
+      console.log(values,"here is values")
+
+       const res = await axios.put(`http://localhost:8000/user/${id}`,{
+          name: values.name,
+          age: values.age
+      });
+
+      if(res){
+        data[activeElement].name =values.name;
+        data[activeElement].age =values.age;
+
+        setData(data)
+
         setVisible(false);
-        setConfirmLoading(false);
-      }, 2000);
+      }
+
     };
   
     const handleEditCancel = () => {
@@ -185,7 +189,7 @@ const ListShow = () => {
                             <List.Item key>
                                 <Typography.Text mark>{key+1})</Typography.Text> Name: {item.name} <br/>Age:{ item.age}
                                 <div>
-                                    <Button type="primary" onClick={() =>showEditModal(key)}>EDIT</Button>
+                                    <Button type="primary" onClick={() =>showEditModal(key, item.id)}>EDIT</Button>
                                     <Button type="danger" iconn="delete"  onClick={() => showDelModal(item.id)} >DELETE</Button>
                                     <Button type="default" onClick={(e) => showModal(key)}>MORE</Button>
                                 </div>
@@ -196,12 +200,13 @@ const ListShow = () => {
                 </Col>
                 <Col span={12}>
                 <List
-                        header={<div><b>{sideTitle}</b> </div>}
+                        header={<div><b>CREATE USER</b> </div>}
                         bordered
                         dataSource={demodata}
                         renderItem={(item, key) => (
 
                             <Form
+                           
                             {...layout}
                             name="basic"
                             initialValues={{
@@ -270,18 +275,24 @@ const ListShow = () => {
               title="Edit User Information"
               visible={visible}
               onOk={handleEditOk}
+              cancelButtonProps={{ style: { display: 'none' } }}
+              okButtonProps={{ style: { display: 'none' } }}
               confirmLoading={confirmLoading}
               onCancel={handleEditCancel}
             >
               <Form
                 {...layout}
                 name="basic"
+                form={form}
                 initialValues={{
-                  remember: true,
+                  name:`${data[activeElement]?.name || ""}`,
+                  age:data[activeElement]?.age || 0
+              
                 }}
-                onFinish={onFinish}
+                onFinish={handleEditOk}
                 onFinishFailed={onFinishFailed}
               >
+                {data[activeElement]?.name}
                 <Form.Item
                   label="Name"
                   name="name"
@@ -307,10 +318,15 @@ const ListShow = () => {
                 >
                   <InputNumber />
                 </Form.Item>
+
+                <Form.Item {...tailLayout}>
+                  <Button type="primary" htmlType="submit">
+                    UPDATE
+                  </Button>
+                </Form.Item>
           
               </Form>
             </Modal>
-
     
       </>
     
