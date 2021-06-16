@@ -1,9 +1,13 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import Image from 'next/image';
-// import Gopher from "../square-gopher.png"
+import { useAuth } from '../auth';
 
-const Layout = (props) => (
+const Layout = (props) => {
+
+  const {user}=useAuth();
+  return(
+
   <div>
     <Head>
       <title>Narayanz</title>
@@ -12,16 +16,16 @@ const Layout = (props) => (
     <Navbar/>
     
     <div className="container">
-        <Image
+        {/* <Image
             src='/square-gopher.png'
             alt="Golang"
             height={200}
             width={500}
-        />
+        /> */}
       {props.children}
     </div>
    
   </div>
-);
+)};
 
 export default Layout;
