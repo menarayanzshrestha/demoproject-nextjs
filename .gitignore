@@ -1,9 +1,8 @@
 node_modules
 **/.next/**
 .next
-.env
+#.env
 build
 packages/*/package-lock.json
-firebaseClient.js
 secrets.json
 firebase.json
