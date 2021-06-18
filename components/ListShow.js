@@ -186,7 +186,7 @@ const ListShow = () => {
                         dataSource={data}
                         renderItem={(item, key) => (
 
-                            <List.Item key>
+                            <List.Item key={key}>
                                 <Typography.Text mark>{key+1})</Typography.Text> Name: {item.name} <br/>Age:{ item.age}
                                 <div>
                                     <Button type="primary" onClick={() =>showEditModal(key, item.id)}>EDIT</Button>
