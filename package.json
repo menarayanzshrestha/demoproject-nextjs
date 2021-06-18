@@ -20,7 +20,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next -p 3006",
-    "start": "next start"
+    "start": "next start -p 3007"
   },
   "keywords": [],
   "author": "",
