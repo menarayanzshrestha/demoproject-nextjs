@@ -1,6 +1,6 @@
 import Layout from '../components/Layout';
 
-export default function Custom404() {
+const Custom404 = () => {
     return (
         <Layout>
             <div>
@@ -11,4 +11,6 @@ export default function Custom404() {
     )
     
   }
+
+  export default Custom404
   

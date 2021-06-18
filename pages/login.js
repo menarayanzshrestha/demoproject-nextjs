@@ -7,7 +7,7 @@ import "firebase/auth";
 import {Form, Input,Button, notification} from "antd";
 
 
-export default function Login({ props }) {
+ const Login = ({ props }) => {
   firebaseClient();
 
   const [email, setEmail] = useState("");
@@ -91,3 +91,5 @@ export default function Login({ props }) {
 
   );
 }
+
+export default Login
